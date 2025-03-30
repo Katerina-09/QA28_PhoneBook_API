@@ -13,8 +13,8 @@ import java.io.IOException;
 public class loginTestsOkhttp {
 
     Gson gson = new Gson();
-    public  static final MediaType JSON = MediaType.get("application/json; charset = utf-8");
-    OkHttpClient client = new OkHttpClient();
+    public  static final MediaType JSON = MediaType.get("application/json;charset=utf-8");
+    private OkHttpClient client = new OkHttpClient();
 
     @Test
     public void loginSuccess() throws IOException {
@@ -40,7 +40,8 @@ public class loginTestsOkhttp {
     @Test
     public void loginWrongEmail() throws IOException {
         AuthRequestDTO auth = AuthRequestDTO.builder().username("firiall68gmail.com")
-                .password("Tele2user84!").build();
+                .password("Tele2user84!")
+                .build();
 
         RequestBody body = RequestBody.create(gson.toJson(auth),JSON);
 
@@ -52,18 +53,19 @@ public class loginTestsOkhttp {
         Response response = client.newCall(request).execute();
         Assert.assertFalse(response.isSuccessful());
         Assert.assertEquals(response.code(), 401);
-        ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
+        String responseBody = response.body().string();
+        ErrorDTO errorDTO = gson.fromJson(responseBody, ErrorDTO.class);
 
-        AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);
+       // AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);
         Assert.assertEquals(errorDTO.getStatus(), 401);
-        Assert.assertEquals(errorDTO.getMessage(), "Login or password incorrect");
+        Assert.assertEquals(errorDTO.getMessage(), "Login or Password incorrect");
 
     }
 
     @Test
     public void loginWrongPassword() throws IOException {
         AuthRequestDTO auth = AuthRequestDTO.builder().username("firiall68@gmail.com")
-                .password("Tele2user84!").build();
+                .password("Tele2").build();
 
         RequestBody body = RequestBody.create(gson.toJson(auth),JSON);
 
@@ -75,18 +77,19 @@ public class loginTestsOkhttp {
         Response response = client.newCall(request).execute();
         Assert.assertFalse(response.isSuccessful());
         Assert.assertEquals(response.code(), 401);
-        ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
+        String responseBody = response.body().string();
+        ErrorDTO errorDTO = gson.fromJson(responseBody, ErrorDTO.class);
 
-        AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);
+        // AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);
         Assert.assertEquals(errorDTO.getStatus(), 401);
-        Assert.assertEquals(errorDTO.getMessage(), "Login or password incorrect");
+        Assert.assertEquals(errorDTO.getMessage(), "Login or Password incorrect");
 
     }
 
     @Test
     public void UnregistredUser() throws IOException {
-        AuthRequestDTO auth = AuthRequestDTO.builder().username("firiall68@gmail.com")
-                .password("Tele2user84!").build();
+        AuthRequestDTO auth = AuthRequestDTO.builder().username("fir5@gmail.com")
+                .password("Tele2user8!").build();
 
         RequestBody body = RequestBody.create(gson.toJson(auth),JSON);
 
@@ -98,11 +101,12 @@ public class loginTestsOkhttp {
         Response response = client.newCall(request).execute();
         Assert.assertFalse(response.isSuccessful());
         Assert.assertEquals(response.code(), 401);
-        ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
+        String responseBody = response.body().string();
+        ErrorDTO errorDTO = gson.fromJson(responseBody, ErrorDTO.class);
 
-        AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);
+        // AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);
         Assert.assertEquals(errorDTO.getStatus(), 401);
-        Assert.assertEquals(errorDTO.getMessage(), "Login or password incorrect");
+        Assert.assertEquals(errorDTO.getMessage(), "Login or Password incorrect");
 
     }
 }
