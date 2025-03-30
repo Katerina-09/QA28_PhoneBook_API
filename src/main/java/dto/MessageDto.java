@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @Builder
-public class GetAllContactsDto {
-    private List<ContactDto> contacts;
+
+public class MessageDto {
+
+    private String message;
 }
